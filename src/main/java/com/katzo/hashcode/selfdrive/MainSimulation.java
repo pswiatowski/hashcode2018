@@ -19,11 +19,11 @@ public class MainSimulation {
     }
 
     private void solveAll() throws IOException {
-        solve("2018/a_example.in", "/tmp/2018/a_example.out");
-        solve("2018/b_should_be_easy.in", "/tmp/2018/b_should_be_easy.out");
-        solve("2018/c_no_hurry.in", "/tmp/2018/c_no_hurry.out");
-        solve("2018/d_metropolis.in", "/tmp/2018/d_metropolis.out");
-        solve("2018/e_high_bonus.in", "/tmp/2018/e_high_bonus.out");
+        solve("2018/a_example.in", "2018/a_example.out");
+        solve("2018/b_should_be_easy.in", "2018/b_should_be_easy.out");
+        solve("2018/c_no_hurry.in", "2018/c_no_hurry.out");
+        solve("2018/d_metropolis.in", "2018/d_metropolis.out");
+        solve("2018/e_high_bonus.in", "2018/e_high_bonus.out");
     }
 
     private void solve(String inputFile, String outputFile) throws IOException {
@@ -109,14 +109,13 @@ public class MainSimulation {
         return simulation;
     }
 
-    private HashCodeIO getHashCodeIO(String inputFile, String out) throws IOException {
+    private HashCodeIO getHashCodeIO(String inputFile, String outputFile) throws IOException {
         ClassLoader classLoader = getClass().getClassLoader();
         URL resource = classLoader.getResource(inputFile);
+        URL outResource = classLoader.getResource(outputFile);
         File file = new File(resource.getFile());
-        File outFile = new File(out);
-        if (!outFile.exists()) {
-            outFile.createNewFile();
-        }
+        File outFile = new File(outResource.getFile());
+
         return new HashCodeIO(Files.asByteSource(file).openStream(), new FileOutputStream(outFile));
     }
 }
