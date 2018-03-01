@@ -28,10 +28,10 @@ public class MainSimulation {
         int vehicles = io.getInt();
         int rides = io.getInt();
         int bonus = io.getInt();
-        int steps = io.getInt();
+        int T = io.getInt();
 
 
-        Simulation simulation = new Simulation(rows, cols, vehicles, rides, bonus, steps);
+        Simulation simulation = new Simulation(rows, cols, vehicles, rides, bonus, T);
 
         for(int i = 0; i < rides; i++) {
             int a = io.getInt();

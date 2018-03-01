@@ -9,13 +9,13 @@ public class Journey {
     private Vehicle vehicle;
 
     private int score;
-    private int time;
+    private int totalTIme;
 
     public Journey(Ride ride, Vehicle vehicle, int score, int time) {
         this.ride = ride;
         this.vehicle = vehicle;
         this.score = score;
-        this.time = time;
+        this.totalTIme = time;
     }
 
     public Ride getRide() {
@@ -42,11 +42,11 @@ public class Journey {
         this.score = score;
     }
 
-    public int getTime() {
-        return time;
+    public int getTotalTIme() {
+        return totalTIme;
     }
 
-    public void setTime(int time) {
-        this.time = time;
+    public void setTotalTIme(int totalTIme) {
+        this.totalTIme = totalTIme;
     }
 }

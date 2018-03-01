@@ -10,16 +10,16 @@ public class Simulation {
     private final int countVehicles;
     private final int countRides;
     private final int bonus;
-    private final int steps;
+    private final int time;
     private List<Ride> rides;
 
-    public Simulation(int rows, int cols, int countVehicles, int countRides, int bonus, int steps) {
+    public Simulation(int rows, int cols, int countVehicles, int countRides, int bonus, int time) {
         this.rows = rows;
         this.cols = cols;
         this.countVehicles = countVehicles;
         this.countRides = countRides;
         this.bonus = bonus;
-        this.steps = steps;
+        this.time = time;
         this.rides = new ArrayList<>(countRides);
     }
 
@@ -43,8 +43,8 @@ public class Simulation {
         return bonus;
     }
 
-    public int getSteps() {
-        return steps;
+    public int getTime() {
+        return time;
     }
 
     public void addRide(Ride r) {
