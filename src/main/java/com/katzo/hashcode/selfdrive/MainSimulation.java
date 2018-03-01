@@ -19,11 +19,11 @@ public class MainSimulation {
     }
 
     private void solveAll() throws IOException {
-        solve("2018/a_example.in", "/tmp/2018/a_example.out");
+//        solve("2018/a_example.in", "/tmp/2018/a_example.out");
         solve("2018/b_should_be_easy.in", "/tmp/2018/b_should_be_easy.out");
-        solve("2018/c_no_hurry.in", "/tmp/2018/c_no_hurry.out");
-        solve("2018/d_metropolis.in", "/tmp/2018/d_metropolis.out");
-        solve("2018/e_high_bonus.in", "/tmp/2018/e_high_bonus.out");
+//        solve("2018/c_no_hurry.in", "/tmp/2018/c_no_hurry.out");
+//        solve("2018/d_metropolis.in", "/tmp/2018/d_metropolis.out");
+//        solve("2018/e_high_bonus.in", "/tmp/2018/e_high_bonus.out");
     }
 
     private void solve(String inputFile, String outputFile) throws IOException {
@@ -35,30 +35,43 @@ public class MainSimulation {
 
         for (int time = 0; time < s.getTime(); time++) {
             for (Vehicle vehicle : s.getVehicleList()) {
+//                System.out.println("vehicle.getId() = " + vehicle.getId());
+
                 List<Journey> possibleJourneys = Lists.newArrayList();
 
                 if (s.getRides().isEmpty()) {
                     continue;
                 }
 
-                for(Ride ride : s.getRides()) {
-                    Journey journey = vehicle.generateJourney(ride, s, time);
+                List<Ride> rides = s.getRides();
+                for (int i = 0; i < 3; i++) {
+                    Journey journey = vehicle.generateJourney(rides.get(i), s, time);
                     possibleJourneys.add(journey);
                 }
+//                for(Ride ride : s.getRides()) {
+//                    System.out.println("ride.getId() = " + ride.getId());
+//                    Journey journey = vehicle.generateJourney(ride, s, time);
+//                    possibleJourneys.add(journey);
+//
+//                }
 
                 // choose the best one
                 Journey bestJourney = possibleJourneys.get(0);
+//                System.out.println("possibleJourneys.size() = " + possibleJourneys.size());
                 if (bestJourney.getTotalTIme() != 0) {
 
 
                     double bestJourneyValue = bestJourney.calculate();
                     for (int i = 1; i < possibleJourneys.size(); i++) {
-                        if (possibleJourneys.get(i).calculate() > bestJourneyValue) {
-                            bestJourney = possibleJourneys.get(i);
+//                        System.out.println("bestJourney = " + bestJourney);
+                        if (possibleJourneys.get(i).getTotalTIme() != 0) {
+                            if (possibleJourneys.get(i).calculate() > bestJourneyValue) {
+                                bestJourney = possibleJourneys.get(i);
+                            }
                         }
                     }
                     finalJourneys.add(bestJourney);
-
+//                    System.out.println("bestJourneyValue = " + bestJourneyValue);
                     vehicle.setPosition(bestJourney.getRide().getEndPosition());
                     vehicle.setNextStartTIme(bestJourney.getTotalTIme());
 
