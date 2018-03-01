@@ -2,6 +2,7 @@ package com.katzo.hashcode.selfdrive;
 
 public class Ride {
 
+    private int id;
     private final Position startPosition;
     private final Position endPosition;
     private final int startTime;
@@ -32,7 +33,8 @@ public class Ride {
         return endTime - getDistance();
     }
 
-    public Ride(Position startPosition, Position endPosition, int startTime, int endTime) {
+    public Ride(int id, Position startPosition, Position endPosition, int startTime, int endTime) {
+        this.id = id;
 
         this.startPosition = startPosition;
         this.endPosition = endPosition;

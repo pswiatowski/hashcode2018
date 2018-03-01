@@ -1,11 +1,13 @@
 package com.katzo.hashcode.selfdrive;
 
+import com.google.common.collect.Lists;
 import com.google.common.io.Files;
 import com.katzo.hashcode.HashCodeIO;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 
 public class MainSimulation {
 
@@ -14,6 +16,18 @@ public class MainSimulation {
 
         Simulation s = mainSimulation.read("2018/a_example.in");
 
+        for (int i = 0; i < s.getTime(); i++) {
+                for (Vehicle vehicle : s.getVehicleList()) {
+                    List<Journey> possibleJourneys = Lists.newArrayList();
+                    for(Ride ride : s.getRides()) {
+                        Journey journey = vehicle.generateJourney(ride, s);
+                        possibleJourneys.add(journey);
+                    }
+
+                    // choose the best one
+                    possibleJourneys.get(0);
+                }
+        }
     }
 
     private Simulation read(String inputFile) throws IOException {
@@ -31,7 +45,12 @@ public class MainSimulation {
         int T = io.getInt();
 
 
-        Simulation simulation = new Simulation(rows, cols, vehicles, rides, bonus, T);
+        List<Vehicle> vehicleList = Lists.newArrayList();
+        for (int i = 0; i <vehicles; i++) {
+                vehicleList.add(new Vehicle(i));
+        }
+
+        Simulation simulation = new Simulation(rows, cols, vehicles, rides, bonus, T, vehicleList);
 
         for(int i = 0; i < rides; i++) {
             int a = io.getInt();
@@ -41,7 +60,7 @@ public class MainSimulation {
             int s = io.getInt();
             int f = io.getInt();
 
-            Ride r = new Ride(new Position(a, b), new Position(x, y), s, f);
+            Ride r = new Ride(i, new Position(a, b), new Position(x, y), s, f);
             simulation.addRide(r);
 
         }

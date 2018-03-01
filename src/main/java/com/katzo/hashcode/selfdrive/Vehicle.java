@@ -1,18 +1,19 @@
 package com.katzo.hashcode.selfdrive;
 
 public class Vehicle {
+  private int id;
   private Position position = new Position(0, 0);
   private boolean isUsed = false;
 
-  public Vehicle() {
-
+  public Vehicle(int id) {
+    this.id = id;
   }
 
   public Journey generateJourney(Ride ride, Simulation simulation) {
     int score = 0;
     int totalTime = 0;
 
-    if (isUsed) {
+    if (!isUsed) {
 
       int travelTimeToPickUp = Util.calculatePosition(position, ride.getStartPosition());
 
