@@ -7,6 +7,7 @@ import com.katzo.hashcode.HashCodeIO;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
@@ -57,11 +58,30 @@ public class MainSimulation {
 
     }
 
-    private Simulation read(String inputFile) throws IOException {
-        ClassLoader classLoader = getClass().getClassLoader();
-        URL resource = classLoader.getResource(inputFile);
-        File file = new File(resource.getFile());
-        HashCodeIO io = new HashCodeIO(Files.asByteSource(file).openStream(), System.out);
+    private void solveAll() throws IOException {
+        solve("2018/a_example.in");
+        solve("2018/b_should_be_easy.in");
+        solve("2018/c_no_hurry.in");
+        solve("2018/d_metropolis.in");
+        solve("2018/e_high_bonus.in");
+    }
+
+    private void solve(String inputFile) throws IOException {
+        HashCodeIO io = getHashCodeIO("2018/a_example.in", System.out);
+        Simulation s = read(io);
+        SimulationResult result = new SimulationResult(io);
+        result.addRide(1, 2);
+        result.addRide(1, 1);
+        result.addRide(1, 3);
+        result.addRide(1, 4);
+
+        result.addRide(2, 7);
+        result.print(io);
+        io.close();
+    }
+
+    private Simulation read(HashCodeIO io) throws IOException {
+
 
         // Read Simulation
         int rows = io.getInt();
@@ -92,5 +112,12 @@ public class MainSimulation {
 
         }
         return simulation;
+    }
+
+    private HashCodeIO getHashCodeIO(String inputFile, PrintStream out) throws IOException {
+        ClassLoader classLoader = getClass().getClassLoader();
+        URL resource = classLoader.getResource(inputFile);
+        File file = new File(resource.getFile());
+        return new HashCodeIO(Files.asByteSource(file).openStream(), out);
     }
 }

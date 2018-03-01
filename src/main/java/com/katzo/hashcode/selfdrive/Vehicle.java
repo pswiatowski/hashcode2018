@@ -74,4 +74,8 @@ public class Vehicle {
   public void setUsed(boolean used) {
     isUsed = used;
   }
+
+    public int getId() {
+        return id;
+    }
 }
