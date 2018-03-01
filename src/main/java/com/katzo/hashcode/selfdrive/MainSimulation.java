@@ -1,35 +1,33 @@
 package com.katzo.hashcode.selfdrive;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.io.Files;
 import com.katzo.hashcode.HashCodeIO;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.net.URL;
 import java.util.List;
-import java.util.Map;
 
 public class MainSimulation {
 
     public static void main(String[] args) throws IOException {
         MainSimulation mainSimulation = new MainSimulation();
 
-        mainSimulation.solve("2018/a_example.in");
+        mainSimulation.solveAll();
     }
 
     private void solveAll() throws IOException {
-        solve("2018/a_example.in");
-        solve("2018/b_should_be_easy.in");
-        solve("2018/c_no_hurry.in");
-        solve("2018/d_metropolis.in");
-        solve("2018/e_high_bonus.in");
+        solve("2018/a_example.in", "/tmp/2018/a_example.out");
+        solve("2018/b_should_be_easy.in", "/tmp/2018/b_should_be_easy.out");
+        solve("2018/c_no_hurry.in", "/tmp/2018/c_no_hurry.out");
+        solve("2018/d_metropolis.in", "/tmp/2018/d_metropolis.out");
+        solve("2018/e_high_bonus.in", "/tmp/2018/e_high_bonus.out");
     }
 
-    private void solve(String inputFile) throws IOException {
-        HashCodeIO io = getHashCodeIO("2018/a_example.in", System.out);
+    private void solve(String inputFile, String outputFile) throws IOException {
+        HashCodeIO io = getHashCodeIO(inputFile, outputFile);
         Simulation s = read(io);
 
 
@@ -111,10 +109,14 @@ public class MainSimulation {
         return simulation;
     }
 
-    private HashCodeIO getHashCodeIO(String inputFile, PrintStream out) throws IOException {
+    private HashCodeIO getHashCodeIO(String inputFile, String out) throws IOException {
         ClassLoader classLoader = getClass().getClassLoader();
         URL resource = classLoader.getResource(inputFile);
         File file = new File(resource.getFile());
-        return new HashCodeIO(Files.asByteSource(file).openStream(), out);
+        File outFile = new File(out);
+        if (!outFile.exists()) {
+            outFile.createNewFile();
+        }
+        return new HashCodeIO(Files.asByteSource(file).openStream(), new FileOutputStream(outFile));
     }
 }

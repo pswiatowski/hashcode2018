@@ -51,6 +51,8 @@ public class Journey {
     }
 
     public double calculate() {
+        if (totalTIme == 0) return 0;
+
         return score / totalTIme;
     }
 }
