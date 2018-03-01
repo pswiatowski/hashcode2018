@@ -49,4 +49,8 @@ public class Journey {
     public void setTotalTIme(int totalTIme) {
         this.totalTIme = totalTIme;
     }
+
+    public double calculate() {
+        return score / totalTIme;
+    }
 }

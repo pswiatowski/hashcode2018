@@ -1,6 +1,7 @@
 package com.katzo.hashcode.selfdrive;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.io.Files;
 import com.katzo.hashcode.HashCodeIO;
 
@@ -8,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 
 public class MainSimulation {
 
@@ -16,18 +18,43 @@ public class MainSimulation {
 
         Simulation s = mainSimulation.read("2018/a_example.in");
 
-        for (int i = 0; i < s.getTime(); i++) {
+        List<Journey> finalJourneys = Lists.newArrayList();
+
+        for (int time = 0; time < s.getTime(); time++) {
                 for (Vehicle vehicle : s.getVehicleList()) {
                     List<Journey> possibleJourneys = Lists.newArrayList();
+
+                    if (s.getRides().isEmpty()) {
+                        continue;
+                    }
+
                     for(Ride ride : s.getRides()) {
-                        Journey journey = vehicle.generateJourney(ride, s);
+                        Journey journey = vehicle.generateJourney(ride, s, time);
                         possibleJourneys.add(journey);
                     }
 
                     // choose the best one
-                    possibleJourneys.get(0);
+                    Journey bestJourney = possibleJourneys.get(0);
+                    if (bestJourney.getTotalTIme() != 0) {
+
+
+                        double bestJourneyValue = bestJourney.calculate();
+                        for (int i = 1; i < possibleJourneys.size(); i++) {
+                            if (possibleJourneys.get(i).calculate() > bestJourneyValue) {
+                                bestJourney = possibleJourneys.get(i);
+                            }
+                        }
+                        finalJourneys.add(bestJourney);
+
+                        vehicle.setPosition(bestJourney.getRide().getEndPosition());
+                        vehicle.setNextStartTIme(bestJourney.getTotalTIme());
+
+                        s.getRides().remove(bestJourney.getRide());
+                    }
+
                 }
         }
+
     }
 
     private Simulation read(String inputFile) throws IOException {
