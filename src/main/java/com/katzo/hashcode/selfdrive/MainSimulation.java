@@ -17,45 +17,7 @@ public class MainSimulation {
     public static void main(String[] args) throws IOException {
         MainSimulation mainSimulation = new MainSimulation();
 
-        Simulation s = mainSimulation.read("2018/a_example.in");
-
-        List<Journey> finalJourneys = Lists.newArrayList();
-
-        for (int time = 0; time < s.getTime(); time++) {
-                for (Vehicle vehicle : s.getVehicleList()) {
-                    List<Journey> possibleJourneys = Lists.newArrayList();
-
-                    if (s.getRides().isEmpty()) {
-                        continue;
-                    }
-
-                    for(Ride ride : s.getRides()) {
-                        Journey journey = vehicle.generateJourney(ride, s, time);
-                        possibleJourneys.add(journey);
-                    }
-
-                    // choose the best one
-                    Journey bestJourney = possibleJourneys.get(0);
-                    if (bestJourney.getTotalTIme() != 0) {
-
-
-                        double bestJourneyValue = bestJourney.calculate();
-                        for (int i = 1; i < possibleJourneys.size(); i++) {
-                            if (possibleJourneys.get(i).calculate() > bestJourneyValue) {
-                                bestJourney = possibleJourneys.get(i);
-                            }
-                        }
-                        finalJourneys.add(bestJourney);
-
-                        vehicle.setPosition(bestJourney.getRide().getEndPosition());
-                        vehicle.setNextStartTIme(bestJourney.getTotalTIme());
-
-                        s.getRides().remove(bestJourney.getRide());
-                    }
-
-                }
-        }
-
+        mainSimulation.solve("2018/a_example.in");
     }
 
     private void solveAll() throws IOException {
@@ -69,13 +31,48 @@ public class MainSimulation {
     private void solve(String inputFile) throws IOException {
         HashCodeIO io = getHashCodeIO("2018/a_example.in", System.out);
         Simulation s = read(io);
-        SimulationResult result = new SimulationResult(io);
-        result.addRide(1, 2);
-        result.addRide(1, 1);
-        result.addRide(1, 3);
-        result.addRide(1, 4);
 
-        result.addRide(2, 7);
+
+        List<Journey> finalJourneys = Lists.newArrayList();
+
+        for (int time = 0; time < s.getTime(); time++) {
+            for (Vehicle vehicle : s.getVehicleList()) {
+                List<Journey> possibleJourneys = Lists.newArrayList();
+
+                if (s.getRides().isEmpty()) {
+                    continue;
+                }
+
+                for(Ride ride : s.getRides()) {
+                    Journey journey = vehicle.generateJourney(ride, s, time);
+                    possibleJourneys.add(journey);
+                }
+
+                // choose the best one
+                Journey bestJourney = possibleJourneys.get(0);
+                if (bestJourney.getTotalTIme() != 0) {
+
+
+                    double bestJourneyValue = bestJourney.calculate();
+                    for (int i = 1; i < possibleJourneys.size(); i++) {
+                        if (possibleJourneys.get(i).calculate() > bestJourneyValue) {
+                            bestJourney = possibleJourneys.get(i);
+                        }
+                    }
+                    finalJourneys.add(bestJourney);
+
+                    vehicle.setPosition(bestJourney.getRide().getEndPosition());
+                    vehicle.setNextStartTIme(bestJourney.getTotalTIme());
+
+                    s.getRides().remove(bestJourney.getRide());
+                }
+
+            }
+        }
+
+        SimulationResult result = new SimulationResult(io);
+
+        finalJourneys.stream().forEach(journey -> result.addRide(journey.getVehicle().getId() + 1, journey.getRide().getId()));
         result.print(io);
         io.close();
     }
