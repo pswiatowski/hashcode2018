@@ -36,8 +36,22 @@ public class Vehicle {
       }
     } else {
       //TODO
-//      int travelTimeToPickUp = Util.calculatePosition(position, ride.getStartPosition());
+      int travelTimeToPickUp = Util.calculatePosition(position, ride.getStartPosition());
 
+      if (nextStartTIme + travelTimeToPickUp <= ride.getLatestPickUpTime()) {
+
+        score = ride.getDistance();
+
+        if (nextStartTIme + travelTimeToPickUp <= ride.getStartTime()) {
+          score += simulation.getBonus();
+        }
+
+        int waitTime = 0;
+        if (nextStartTIme + travelTimeToPickUp < ride.getStartTime()) {
+          waitTime = ride.getStartTime() - time - travelTimeToPickUp;
+        }
+        totalTime = ride.getDistance() + travelTimeToPickUp + waitTime;
+      }
     }
 
     return new Journey(ride, this, score, totalTime);
