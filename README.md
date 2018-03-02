@@ -1,18 +1,18 @@
 # HashCode2018
 
-##Team:
+## Team:
 **KATZO**
 
-##Team members:
-1. **Marc Navarro**/ github account: @github/morfeo8marc <br />
+## Team members:
+1. **Marc Navarro**/ github account: @morfeo8marc <br />
 2. **Riccardo Iudica**  <br />
-3. **Piotr Swiatowski**/ github account: @github/pswiatowski  <br />
+3. **Piotr Swiatowski**/ github account: @pswiatowski  <br />
 
-##Score:
+## Score:
 - A - example **10**  <br />
 - B - should be easy **174902**  <br />
 - C - no hurry **9515851**  <br />
 - D - metropolis **7047077**  <br />
 - E - high bonus **15855945**  <br />
 
-###Total score:  **32,593,785**
+### Total score:  **32,593,785**
