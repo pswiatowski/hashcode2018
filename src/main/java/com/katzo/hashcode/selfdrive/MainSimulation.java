@@ -34,7 +34,11 @@ public class MainSimulation {
         List<Journey> finalJourneys = Lists.newArrayList();
 
         List<Ride> rides = s.getRides();
-        rides.sort((r1, r2) -> r1.getDistance() > r2.getDistance() ? -1 : r1.getDistance() < r2.getDistance() ? 1 : 0);
+        if (s.getBonus() > 100) {
+            rides.sort((r1, r2) -> r1.getStartTime() < r2.getStartTime() ? -1 : r1.getStartTime() > r2.getStartTime() ? 1 : 0);
+        } else {
+            rides.sort((r1, r2) -> r1.getDistance() > r2.getDistance() ? -1 : r1.getDistance() < r2.getDistance() ? 1 : 0);
+        }
 
         for (Ride ride : rides) {
             List<Journey> possibleJourneys = Lists.newArrayList();
