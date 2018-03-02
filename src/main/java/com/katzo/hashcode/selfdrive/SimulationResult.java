@@ -12,9 +12,11 @@ public class SimulationResult {
 
     private Map<Integer, List<Integer>> vehicleRides = new HashMap<>();
     private HashCodeIO io;
+    private Simulation simulation;
 
-    public SimulationResult(HashCodeIO io) {
+    public SimulationResult(HashCodeIO io, Simulation simulation) {
         this.io = io;
+        this.simulation = simulation;
     }
 
 
@@ -25,10 +27,25 @@ public class SimulationResult {
     }
 
     public void print(HashCodeIO io) {
-        vehicleRides.forEach((car, rides) -> {
-            io.print(car);
-            io.printf(" %s\n", rides.stream().map(id -> id.toString()).collect(Collectors.joining(" ")));
+
+        int countVehicles = simulation.getCountVehicles();
+
+        for (int i = 1; i <= countVehicles; i++) {
+            if(vehicleRides.containsKey(i)) {
+                List<Integer> rides = vehicleRides.get(i);
+                io.print(rides.size());
+                io.printf(" %s\n", rides.stream().map(id -> id.toString()).collect(Collectors.joining(" ")));
+            }else {
+                io.print("0\n");
+            }
             io.flush();
-        });
+        }
+
+//
+//        vehicleRides.forEach((car, rides) -> {
+//            io.print(rides.size());
+//            io.printf(" %s\n", rides.stream().map(id -> id.toString()).collect(Collectors.joining(" ")));
+//            io.flush();
+//        });
     }
 }

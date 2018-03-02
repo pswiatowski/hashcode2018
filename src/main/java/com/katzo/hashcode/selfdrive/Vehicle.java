@@ -10,51 +10,38 @@ public class Vehicle {
     this.id = id;
   }
 
-  public Journey generateJourney(Ride ride, Simulation simulation, int time) {
+  public Journey generateJourney(Ride ride, Simulation simulation, int maxTIme) {
+
     int score = 0;
     int totalTime = 0;
+    int waitTime = 0;
 
-//    if (!isUsed) {
-    if (time >= nextStartTIme) {
+    int latestPickUpTime = ride.getLatestPickUpTime();
+    int rideStartTime = ride.getStartTime();
+    int travelTimeToPickUp = Util.calculatePosition(position, ride.getStartPosition());
+    int riderDistance = ride.getDistance();
 
-      int travelTimeToPickUp = Util.calculatePosition(position, ride.getStartPosition());
-
-      if (time + travelTimeToPickUp <= ride.getLatestPickUpTime()) {
-
-        score = ride.getDistance();
-
-        if (time + travelTimeToPickUp <= ride.getStartTime()) {
-          score += simulation.getBonus();
-        }
-
-        int waitTime = 0;
-        if (time + travelTimeToPickUp < ride.getStartTime()) {
-            waitTime = ride.getStartTime() - time - travelTimeToPickUp;
-        }
-        totalTime = ride.getDistance() + travelTimeToPickUp + waitTime;
-
+    // can i pick up this person
+    if (latestPickUpTime >= (nextStartTIme + travelTimeToPickUp))
+    {
+      score += riderDistance;
+      // can i pick up at the earliest
+      if (nextStartTIme + travelTimeToPickUp <= rideStartTime) {
+        score += simulation.getBonus();
       }
+
+      if(nextStartTIme + travelTimeToPickUp < rideStartTime) {
+        waitTime = rideStartTime - nextStartTIme - travelTimeToPickUp;
+      }
+
+      totalTime = riderDistance + travelTimeToPickUp + waitTime;
+
+      return new Journey(ride, this, score, totalTime);
     } else {
-      //TODO
-      int travelTimeToPickUp = Util.calculatePosition(position, ride.getStartPosition());
 
-      if (nextStartTIme + travelTimeToPickUp <= ride.getLatestPickUpTime()) {
-
-        score = ride.getDistance();
-
-        if (nextStartTIme + travelTimeToPickUp <= ride.getStartTime()) {
-          score += simulation.getBonus();
-        }
-
-        int waitTime = 0;
-        if (nextStartTIme + travelTimeToPickUp < ride.getStartTime()) {
-          waitTime = ride.getStartTime() - time - travelTimeToPickUp;
-        }
-        totalTime = ride.getDistance() + travelTimeToPickUp + waitTime;
-      }
+      // i cannot pickup that person
+      return null;
     }
-
-    return new Journey(ride, this, score, totalTime);
   }
 
   public int getId() {
