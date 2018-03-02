@@ -5,9 +5,7 @@ package com.katzo.hashcode.selfdrive;
  */
 public class Util {
 
-
     public static int calculatePosition(Position p1, Position p2) {
-
         return Math.abs(p1.getX() - p2.getX()) + Math.abs(p1.getY() - p2.getY());
     }
 }

@@ -29,13 +29,9 @@ public class Ride {
         return startTime;
     }
 
-    public int getEndTime() {
-        return endTime;
-    }
-
     public int getDistance() {
-        return Math.abs(startPosition.getX() -endPosition.getX()) +
-                Math.abs(startPosition.getY() -endPosition.getY());
+        return Math.abs(startPosition.getX() - endPosition.getX()) +
+                Math.abs(startPosition.getY() - endPosition.getY());
     }
 
     public int getLatestPickUpTime() {

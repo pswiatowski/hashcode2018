@@ -25,20 +25,8 @@ public class Simulation {
         this.vehicleList = vehicleList;
     }
 
-    public int getRows() {
-        return rows;
-    }
-
-    public int getCols() {
-        return cols;
-    }
-
     public int getCountVehicles() {
         return countVehicles;
-    }
-
-    public int getCountRides() {
-        return countRides;
     }
 
     public int getBonus() {
@@ -57,15 +45,7 @@ public class Simulation {
         return rides;
     }
 
-    public void setRides(List<Ride> rides) {
-        this.rides = rides;
-    }
-
     public List<Vehicle> getVehicleList() {
         return vehicleList;
-    }
-
-    public void setVehicleList(List<Vehicle> vehicleList) {
-        this.vehicleList = vehicleList;
     }
 }

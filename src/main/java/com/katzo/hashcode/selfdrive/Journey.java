@@ -22,37 +22,15 @@ public class Journey {
         return ride;
     }
 
-    public void setRide(Ride ride) {
-        this.ride = ride;
-    }
-
     public Vehicle getVehicle() {
         return vehicle;
-    }
-
-    public void setVehicle(Vehicle vehicle) {
-        this.vehicle = vehicle;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
     }
 
     public int getTotalTIme() {
         return totalTIme;
     }
 
-    public void setTotalTIme(int totalTIme) {
-        this.totalTIme = totalTIme;
-    }
-
     public double calculate() {
-//        if (totalTIme == 0) return 0;
-
         return score / totalTIme;
     }
 }

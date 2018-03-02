@@ -31,21 +31,14 @@ public class SimulationResult {
         int countVehicles = simulation.getCountVehicles();
 
         for (int i = 1; i <= countVehicles; i++) {
-            if(vehicleRides.containsKey(i)) {
+            if (vehicleRides.containsKey(i)) {
                 List<Integer> rides = vehicleRides.get(i);
                 io.print(rides.size());
                 io.printf(" %s\n", rides.stream().map(id -> id.toString()).collect(Collectors.joining(" ")));
-            }else {
+            } else {
                 io.print("0\n");
             }
             io.flush();
         }
-
-//
-//        vehicleRides.forEach((car, rides) -> {
-//            io.print(rides.size());
-//            io.printf(" %s\n", rides.stream().map(id -> id.toString()).collect(Collectors.joining(" ")));
-//            io.flush();
-//        });
     }
 }

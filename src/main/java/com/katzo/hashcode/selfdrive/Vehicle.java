@@ -1,78 +1,61 @@
 package com.katzo.hashcode.selfdrive;
 
 public class Vehicle {
-  private int id;
-  private Position position = new Position(0, 0);
-  private boolean isUsed = false;
-  private int nextStartTIme = 0 ;
+    private int id;
+    private Position position = new Position(0, 0);
+    private boolean isUsed = false;
+    private int nextStartTIme = 0;
 
-  public Vehicle(int id) {
-    this.id = id;
-  }
-
-  public Journey generateJourney(Ride ride, Simulation simulation, int maxTIme) {
-
-    int score = 0;
-    int totalTime = 0;
-    int waitTime = 0;
-
-    int latestPickUpTime = ride.getLatestPickUpTime();
-    int rideStartTime = ride.getStartTime();
-    int travelTimeToPickUp = Util.calculatePosition(position, ride.getStartPosition());
-    int riderDistance = ride.getDistance();
-
-    // can i pick up this person
-    if (latestPickUpTime >= (nextStartTIme + travelTimeToPickUp))
-    {
-      score += riderDistance;
-      // can i pick up at the earliest
-      if (nextStartTIme + travelTimeToPickUp <= rideStartTime) {
-        score += simulation.getBonus();
-      }
-
-      if(nextStartTIme + travelTimeToPickUp < rideStartTime) {
-        waitTime = rideStartTime - nextStartTIme - travelTimeToPickUp;
-      }
-
-      totalTime = riderDistance + travelTimeToPickUp + waitTime;
-
-      return new Journey(ride, this, score, totalTime);
-    } else {
-
-      // i cannot pickup that person
-      return null;
+    public Vehicle(int id) {
+        this.id = id;
     }
-  }
 
-  public int getId() {
-    return id;
-  }
+    public Journey generateJourney(Ride ride, Simulation simulation, int maxTIme) {
 
-  public void setId(int id) {
-    this.id = id;
-  }
+        int score = 0;
+        int totalTime = 0;
+        int waitTime = 0;
 
-  public int getNextStartTIme() {
-    return nextStartTIme;
-  }
+        int latestPickUpTime = ride.getLatestPickUpTime();
+        int rideStartTime = ride.getStartTime();
+        int travelTimeToPickUp = Util.calculatePosition(position, ride.getStartPosition());
+        int riderDistance = ride.getDistance();
 
-  public void setNextStartTIme(int nextStartTIme) {
-    this.nextStartTIme = nextStartTIme;
-  }
+        // can i pick up this person
+        if (latestPickUpTime >= (nextStartTIme + travelTimeToPickUp)) {
+            score += riderDistance;
+            // can i pick up at the earliest
+            if (nextStartTIme + travelTimeToPickUp <= rideStartTime) {
+                score += simulation.getBonus();
+            }
 
-  public Position getPosition() {
-    return position;
-  }
+            if (nextStartTIme + travelTimeToPickUp < rideStartTime) {
+                waitTime = rideStartTime - nextStartTIme - travelTimeToPickUp;
+            }
 
-  public boolean isUsed() {
-    return isUsed;
-  }
+            totalTime = riderDistance + travelTimeToPickUp + waitTime;
 
-  public void setPosition(Position position) {
-    this.position = position;
-  }
+            return new Journey(ride, this, score, totalTime);
+        } else {
 
-  public void setUsed(boolean used) {
-    isUsed = used;
-  }
+            // i cannot pickup that person
+            return null;
+        }
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getNextStartTIme() {
+        return nextStartTIme;
+    }
+
+    public void setNextStartTIme(int nextStartTIme) {
+        this.nextStartTIme = nextStartTIme;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
 }
