@@ -20,10 +20,10 @@ public class MainSimulation {
 
     private void solveAll() throws IOException {
 
-        solve("2018/a_example.in", "2018/a_example.out");
-        solve("2018/b_should_be_easy.in", "2018/b_should_be_easy.out");
-        solve("2018/c_no_hurry.in", "2018/c_no_hurry.out");
-        solve("2018/d_metropolis.in", "2018/d_metropolis.out");
+//        solve("2018/a_example.in", "2018/a_example.out");
+//        solve("2018/b_should_be_easy.in", "2018/b_should_be_easy.out");
+//        solve("2018/c_no_hurry.in", "2018/c_no_hurry.out");
+//        solve("2018/d_metropolis.in", "2018/d_metropolis.out");
         solve("2018/e_high_bonus.in", "2018/e_high_bonus.out");
     }
 
@@ -34,24 +34,28 @@ public class MainSimulation {
         List<Journey> finalJourneys = Lists.newArrayList();
 
         List<Ride> rides = s.getRides();
-        if (s.getBonus() > 100) {
+        if (s.getBonus() > 0) {
             rides.sort((r1, r2) -> r1.getStartTime() < r2.getStartTime() ? -1 : r1.getStartTime() > r2.getStartTime() ? 1 : 0);
         } else {
             rides.sort((r1, r2) -> r1.getDistance() > r2.getDistance() ? -1 : r1.getDistance() < r2.getDistance() ? 1 : 0);
         }
 
-        for (Ride ride : rides) {
+        while(s.getRides().size() > 0) {
             List<Journey> possibleJourneys = Lists.newArrayList();
-
             for (Vehicle vehicle : s.getVehicleList()) {
 
-                Journey journey = vehicle.generateJourney(ride, s, s.getTime());
-                if (journey != null) {
-                    possibleJourneys.add(journey);
+
+                for (Ride ride : rides) {
+
+                    Journey journey = vehicle.generateJourney(ride, s, s.getTime());
+                    if (journey != null) {
+                        possibleJourneys.add(journey);
+                    }
+
                 }
 
-            }
 
+            }
             if (!possibleJourneys.isEmpty()) {
 
                 Journey bestJourney = possibleJourneys.get(0);
@@ -68,6 +72,14 @@ public class MainSimulation {
                 bestJourney.getVehicle().setPosition(bestJourney.getRide().getEndPosition());
                 int nextStartTIme = bestJourney.getVehicle().getNextStartTIme();
                 bestJourney.getVehicle().setNextStartTIme(bestJourney.getTotalTIme() + nextStartTIme);
+
+                System.out.println("foundRide v= " + bestJourney.getVehicle().getId() + ", r= " +
+                        bestJourney.getRide().getId());
+
+                rides.remove(bestJourney.getRide());
+
+            } else {
+                break;
             }
         }
 
