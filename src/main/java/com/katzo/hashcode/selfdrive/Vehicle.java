@@ -18,7 +18,7 @@ public class Vehicle {
 
         int latestPickUpTime = ride.getLatestPickUpTime();
         int rideStartTime = ride.getStartTime();
-        int travelTimeToPickUp = Util.calculatePosition(position, ride.getStartPosition());
+        int travelTimeToPickUp = position.getDistanceTo(ride.getStartPosition());
         int riderDistance = ride.getDistance();
 
         // can i pick up this person
