@@ -17,4 +17,8 @@ public class Position {
     public int getY() {
         return y;
     }
+
+    public int getDistanceTo(Position pos) {
+        return Math.abs(this.getX() - pos.getX()) + Math.abs(this.getY() - pos.getY());
+    }
 }
