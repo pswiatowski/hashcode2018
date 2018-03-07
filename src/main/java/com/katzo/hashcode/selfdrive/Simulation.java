@@ -42,7 +42,7 @@ public class Simulation {
     }
 
     public List<Ride> getRides() {
-        return rides;
+        return new ArrayList<>(rides);
     }
 
     public List<Vehicle> getVehicleList() {

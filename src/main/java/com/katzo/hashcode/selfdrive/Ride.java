@@ -30,15 +30,29 @@ public class Ride {
     }
 
     public int getDistance() {
-        return Math.abs(startPosition.getX() - endPosition.getX()) +
-                Math.abs(startPosition.getY() - endPosition.getY());
+        return startPosition.getDistanceTo(endPosition);
     }
 
     public int getLatestPickUpTime() {
         return endTime - getDistance();
     }
 
+    public int getEndTime() {
+        return endTime;
+    }
+
     public int getId() {
         return id;
+    }
+
+    @Override
+    public String toString() {
+        return "Ride{" +
+                "id=" + id +
+                ", startPosition=" + startPosition +
+                ", endPosition=" + endPosition +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                '}';
     }
 }

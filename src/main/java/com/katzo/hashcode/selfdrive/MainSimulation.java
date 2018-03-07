@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Comparator;
 import java.util.List;
 
 public class MainSimulation {
@@ -20,11 +21,11 @@ public class MainSimulation {
 
     private void solveAll() throws IOException {
 
-//        solve("2018/a_example.in", "2018/a_example.out");
-//        solve("2018/b_should_be_easy.in", "2018/b_should_be_easy.out");
-//        solve("2018/c_no_hurry.in", "2018/c_no_hurry.out");
-//        solve("2018/d_metropolis.in", "2018/d_metropolis.out");
-        solve("2018/e_high_bonus.in", "2018/e_high_bonus.out");
+        solve("2018/a_example.in", "2018/a_example.out");
+        solve("2018/b_should_be_easy.in", "2018/b_should_be_easy.out");
+        solve("2018/c_no_hurry.in", "2018/c_no_hurry.out");
+        solve("2018/d_metropolis.in", "2018/d_metropolis.out");
+//        solve("2018/e_high_bonus.in", "2018/e_high_bonus.out");
     }
 
     private void solve(String inputFile, String outputFile) throws IOException {
@@ -35,9 +36,9 @@ public class MainSimulation {
 
         List<Ride> rides = s.getRides();
         if (s.getBonus() > 0) {
-            rides.sort((r1, r2) -> r1.getStartTime() < r2.getStartTime() ? -1 : r1.getStartTime() > r2.getStartTime() ? 1 : 0);
+            rides.sort(Comparator.comparingInt(Ride::getStartTime));
         } else {
-            rides.sort((r1, r2) -> r1.getDistance() > r2.getDistance() ? -1 : r1.getDistance() < r2.getDistance() ? 1 : 0);
+            rides.sort(Comparator.comparingInt(Ride::getDistance));
         }
 
         while(s.getRides().size() > 0) {
@@ -72,10 +73,6 @@ public class MainSimulation {
                 bestJourney.getVehicle().setPosition(bestJourney.getRide().getEndPosition());
                 int nextStartTIme = bestJourney.getVehicle().getNextStartTIme();
                 bestJourney.getVehicle().setNextStartTIme(bestJourney.getTotalTIme() + nextStartTIme);
-
-                System.out.println("foundRide v= " + bestJourney.getVehicle().getId() + ", r= " +
-                        bestJourney.getRide().getId());
-
                 rides.remove(bestJourney.getRide());
 
             } else {
@@ -90,6 +87,7 @@ public class MainSimulation {
                 journey.getRide().getId()));
         result.print(io);
         io.close();
+        System.out.println("score = " + result.getScore());
     }
 
     private Simulation read(HashCodeIO io) throws IOException {
